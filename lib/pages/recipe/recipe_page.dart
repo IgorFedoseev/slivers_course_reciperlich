@@ -4,6 +4,7 @@ import '../../constants/colors.dart';
 import '../../models/recipe_model.dart';
 import '../../shared_widgets/app_bar_widget.dart';
 import 'widgets/pill_widget.dart';
+import 'widgets/sliver_sub_header.dart';
 
 class RecipePage extends StatelessWidget {
   final RecipeModel recipe;
@@ -21,7 +22,10 @@ class RecipePage extends StatelessWidget {
             text: recipe.title,
             imagePath: recipe.mainImagePath,
           ),
-          // TODO: Sub Header with text title: 'Instruction'
+          SliverSubHeader(
+            text: 'Instruction',
+            backgroundColor: recipe.itemColor,
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(15),
@@ -34,7 +38,10 @@ class RecipePage extends StatelessWidget {
               ),
             ),
           ),
-          // TODO: Sub Header with text title: 'Ingredients'
+          SliverSubHeader(
+            text: 'Ingredients',
+            backgroundColor: recipe.itemColor,
+          ),
           SliverPadding(
             padding: const EdgeInsets.all(15),
             sliver: SliverGrid.count(
@@ -49,9 +56,30 @@ class RecipePage extends StatelessWidget {
               children: recipe.ingredients.map((e) => PillWidget(e)).toList(),
             ),
           ),
-          // TODO: Sub Header with text title: 'Numbers'
-		  // TODO: SliverGrid for recipe.details
-          // TODO: SliverFillRemaining
+          SliverSubHeader(
+            text: 'Numbers',
+            backgroundColor: recipe.itemColor,
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(15),
+            sliver: SliverGrid(
+              // 1
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200.0,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 4,
+              ),
+              // 2
+              delegate: SliverChildBuilderDelegate(
+                    (context, index) => PillWidget(recipe.details[index]),
+                childCount: recipe.details.length,
+              ),
+            ),
+          ),
+          SliverFillRemaining(
+            child: Container(),
+          ),
         ],
       ),
     );
